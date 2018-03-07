@@ -11,21 +11,35 @@ import pandas as pd
 from sklearn.metrics import classification_report
 from sklearn.datasets import make_classification
 
-def testdata():
-    #Make DataSet
-    n_classes = 3
-    n_samples = 100000
-    weights = np.array([.5/(n_classes-1)]*(n_classes-1)).tolist() + [.5]
-    
+def testdata(
+    n_classes=5, 
+    n_samples=100000, 
+    super_class_percent=.7):
+    """
+    Make Test DataSet
+    """
+
+    n_clusters_per_class = 2
+
+    n_informative = n_classes * n_clusters_per_class
+    n_features = int(n_informative * 1.5)
+
+    other_class_percent = (
+        (1 - super_class_percent) / (n_classes-1))
+
+    weights = [other_class_percent]*(n_classes-1)
+    weights.append(super_class_percent)
+
     X, y = make_classification(
             n_samples=n_samples,
-            n_informative=6,
+            n_informative=n_informative,
             n_classes=n_classes,
+            n_features=n_features,
             weights=weights)
-    
+
     X = pd.DataFrame(X)
     y = pd.Series(y)
-    
+
     split_th = int(X.shape[0]/2)
     X_train, X_test, y_train, y_test = (
             X.iloc[:split_th ], 

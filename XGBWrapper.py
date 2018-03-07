@@ -4,6 +4,7 @@
 Created on Tue Nov 14 16:06:52 2017
 @author: raulsanchez
 """
+import warnings; warnings.filterwarnings('ignore');
 
 import pandas as pd
 import numpy as np
@@ -33,7 +34,7 @@ class XGBWrapper():
             #Number of boosted trees to fit.
             'n_estimators' : kwards.pop('n_estimators', 100),
             #Whether to print messages while running boosting.
-            'silent' : kwards.pop('silent', True),
+            'silent' : kwards.pop('silent', False),
             #Specify the learning task and the corresponding learning objective 
             #or a custom objective function to be used (see note below).
             'objective' : kwards.pop('objective', 'binary:logistic'),
@@ -86,7 +87,7 @@ class XGBWrapper():
             'early_stopping_rounds': kwards.pop('early_stopping_rounds', None),
             #bool) – If verbose and an evaluation set is used, writes the 
             #evaluation metric measured on the validation set to stderr.
-            'verbose': kwards.pop('verbose', True),
+            'verbose': kwards.pop('verbose', False),
             #str) – file name of stored xgb model or ‘Booster’ instance 
             #Xgb model to be loaded before training (allows training 
             #continuation).
